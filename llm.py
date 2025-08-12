@@ -36,65 +36,7 @@ def save_output(llm_response, output_file='output/invoice_data.json'):
 
 def ask_llm_about_invoice( model, text):
     
-    # prompt = f"""
-    #         You are a finance domain assistant specialized in reading and interpreting structured invoice data.
-
-    #         Below is the extracted JSON data parsed from a scanned or uploaded invoice:
-
-    #         {json.dumps(data, indent=4)}
-
-    #         Your tasks:
-
-    #         1. Convert this JSON into a clean and readable summary, formatted like a structured invoice.
-    #         2. Extract and clearly highlight the following key details:
-    #         - Invoice Number
-    #         - Invoice Date
-    #         - Total Invoice Amount
-    #         - Buyer and Seller/Party Names and Addresses
-    #         - GSTIN Numbers (if available)
-    #         - Item Descriptions and Quantities
-            
-    #          {json.dumps(data, indent=4)}
-
-    #         3. provide number of items and their prices along with cgst, sgst and total ammount
-    #         4. Explain each field briefly in layman's terms.
-    #         5. Point out any missing, incomplete, or ambiguous fields in the data.
-    #         6. Highlight if any tax values seem incorrect or inconsistent based on the total.
-
-    #         Be precise and concise in your response. Use bullet points or sections to improve readability. This output will help finance teams verify invoice integrity.
-# """
-    # prompt = f"""
-    # You are a financial document assistant.
-
-    # Below is the raw invoice text:
-    
-    # {text}
-    
-    # Your job is to:
-    #     1. Return a corrected JSON version  fields below mentioned filled accurately.
-    # #         2. Extract and clearly highlight the following key details:
-    # #         - Invoice Number
-    # #         - Invoice Date
-    # #         - Total Invoice Amount
-    # #         - Buyer and Seller/Party Names and Addresses
-    # #         - GSTIN Numbers (if available)
-    # #         - Item Descriptions and Quantities
-    #     """
-
-
-#     prompt = f"""
-#             You are a finance domain assistant specialized in reading and interpreting structured invoice data.
-
-#             Below is the extracted JSON data parsed from a scanned or uploaded invoice:
-
-#             {json.dumps(data, indent=4)}
-
-#             provide number of items and their prices along with cgst, sgst and total ammount
-        
-
-#             Be precise and concise in your response. Use bullet points or sections to improve readability. This output will help finance teams verify invoice integrity.
-# """
-    
+  
     prompt = f"""
 
 You are a financial document assistant.
@@ -185,16 +127,7 @@ def chat_with_invoice(message,history=None):
 def main(folder_path, Gemini_api_key):
     print("=== MAIN STARTED ===")
 
-    # Step 1: Convert PDF to image if needed
-    # if file_path.endswith('.pdf'):
-    #     images = extract_text_from_pdf(file_path)
-    #     image_path = 'temp_invoice.png'
-    #     images[0].save(image_path)
-    # else:
-    #     image_path = file_path
-
-    # Step 2: Preprocess image and extract text
-    # text = extract_text_from_pdf(file_path)
+    
     text = extract_text_from_folder(folder_path)
     print("Extracted Text:\n", text)
     
@@ -203,16 +136,6 @@ def main(folder_path, Gemini_api_key):
     with open('output/parsed_invoice_text.txt', 'a', encoding='utf-8') as f:
         f.write("Extracted Text:\n")
         f.write(text)
-
-
-    # Step 3: Extract structured data from text
-    # parsed_data = extract_invoice_fields(text)
-    # print("Extracted Data:\n", parsed_data)
-    # with open('output/parsed_invoice_data.txt', 'w') as f:
-    #     f.write("Extracted Data:\n")
-    #     f.write(json.dumps(parsed_data, indent=4))
-    # 
-
     
     # Step 5: Configure Gemini and query LLM
     genai.configure(api_key=Gemini_api_key)
